@@ -1,8 +1,8 @@
 import { sql } from 'drizzle-orm'
-import { integer, jsonb, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core'
+import { bigint, integer, jsonb, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core'
 
 export const userCartItems = pgTable('user_cart_items', {
-  tgId: integer('tg_id').notNull(),
+  tgId: bigint('tg_id', { mode: 'number' }).notNull(),
   itemId: text('item_id').notNull(),
   count: integer('count').notNull(),
   createdAt: timestamp('created_at').notNull().default(sql`CURRENT_TIMESTAMP`),
@@ -10,7 +10,7 @@ export const userCartItems = pgTable('user_cart_items', {
 
 export const userOrders = pgTable('user_orders', {
   id: serial('id'),
-  tgId: integer('tg_id').notNull(),
+  tgId: bigint('tg_id', { mode: 'number' }).notNull(),
   cartItems: jsonb('cart_items').$type<{
     item_id: string,
     count: number,
