@@ -36,6 +36,9 @@ bot.callbackQuery(/^coffee:cart:add:(.+):(cart|catalog)/, async (ctx, next) => {
   const returnTo = ctx.match[2] as 'cart' | 'catalog'
   await addToCart(ctx.from.id, itemId)
 
+  if (returnTo === 'catalog') {
+    await ctx.answerCallbackQuery({ text: 'Товар добавлен в корзину.', show_alert: true })
+  }
 
   ctx.callbackQuery.data = returnTo === 'catalog' ? `coffee:catalog:${itemId}` : 'coffee:cart'
   return next()
